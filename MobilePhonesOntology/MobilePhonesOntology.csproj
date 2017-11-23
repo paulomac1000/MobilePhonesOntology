@@ -153,6 +153,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DataDownloadHelper.cs" />
+    <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
