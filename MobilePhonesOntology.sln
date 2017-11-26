@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobilePhonesOntology", "MobilePhonesOntology\MobilePhonesOntology.csproj", "{40D88918-20B7-4D21-BB7C-77711CF64C3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "UnitTestProject1\Tests.csproj", "{179D5694-5520-4E63-BB52-3236349AA5F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{179D5694-5520-4E63-BB52-3236349AA5F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
