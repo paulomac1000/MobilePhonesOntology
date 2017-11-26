@@ -19,40 +19,51 @@ namespace MobilePhonesOntology.Helpers
         private static string ApiUrl { get; } = "https://fonoapi.freshpixl.com/v1/getdevice";
         private static string Token { get; set; }
 
-        public static IEnumerable<Phone> GetAllPhones()
+        public static async Task<IEnumerable<Phone>> GetAllPhones()
         {
-            var brands = GetAllBrands();
+            var brands = GetAllBrands().ToArray();
 
             var phoneNames = new List<Phone>();
 
-            var lockMe = new object();
-            Parallel.ForEach(brands, async brand =>
+            //var lockMe = new object();
+            //var parallelLoopResult = Parallel.ForEach(brands, async brand =>
+            //{
+            //    var phonesSimpleByBrand = GetPhonesByBrand(brand);
+            //    var phonesByBrand = new List<Phone>();
+
+            //    foreach (var phoneSimple in phonesSimpleByBrand)
+            //    {
+            //        var phone = await GetPhone(phoneSimple.Model, phoneSimple.Brand);
+
+            //        if (phone == null)
+            //            continue;
+
+            //        phonesByBrand.Add(phone);
+            //    }
+
+            //    lock (lockMe)
+            //    {
+            //        phoneNames.AddRange(phonesByBrand);
+            //    }
+            //});
+
+            foreach (var brand in brands)
             {
                 var phonesSimpleByBrand = GetPhonesByBrand(brand);
                 var phonesByBrand = new List<Phone>();
 
                 foreach (var phoneSimple in phonesSimpleByBrand)
                 {
-                    Phone phone;
+                    var phone = await GetPhone(phoneSimple.Model, phoneSimple.Brand);
 
-                    try
-                    {
-                        phone = await GetPhone(phoneSimple.Model, phoneSimple.Brand);
-                    }
-                    catch
-                    {
+                    if (phone == null)
                         continue;
-                    }
 
                     phonesByBrand.Add(phone);
                 }
 
-                lock (lockMe)
-                {
-                    phoneNames.AddRange(phonesByBrand);
-                }
-            });
-
+                phoneNames.AddRange(phonesByBrand);
+            }
             return phoneNames;
         }
 
@@ -85,7 +96,7 @@ namespace MobilePhonesOntology.Helpers
             }
             catch
             {
-                throw new Exception(JsonConvert.DeserializeObject<ApiResponse>(responseString).Message);
+                return null;
             }
         }
 

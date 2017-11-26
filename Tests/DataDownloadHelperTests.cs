@@ -11,9 +11,9 @@ namespace Tests
     public class DataDownloadHelperTests
     {
         [TestMethod]
-        public void GetAllPhones_Success()
+        public async Task GetAllPhones_Success()
         {
-            var phones = DataDownloadHelper.GetAllPhones().ToList();
+            var phones = (await DataDownloadHelper.GetAllPhones()).ToList();
 
             Assert.IsNotNull(phones);
             Assert.IsTrue(phones.Any());
