@@ -40,7 +40,7 @@ namespace MobilePhonesOntology.Models
         [JsonProperty(PropertyName = "body_c")]
         public string Bodytype { get; set; }
 
-        [JsonProperty(PropertyName = "Brand")]
+        [JsonProperty(PropertyName = "brand")]
         public string Brand { get; set; }
 
         [JsonProperty(PropertyName = "browser")]
@@ -58,7 +58,7 @@ namespace MobilePhonesOntology.Models
         [JsonProperty(PropertyName = "secondary")]
         public string CameraSecondary { get; set; }
 
-        [JsonProperty(PropertyName = "body_c")]
+        [JsonProperty(PropertyName = "camera_c")]
         public string CameraSupport { get; set; }
 
         [JsonProperty(PropertyName = "camera")]
@@ -118,7 +118,7 @@ namespace MobilePhonesOntology.Models
         [JsonProperty(PropertyName = "messaging")]
         public string Messaging { get; set; }
 
-        [JsonProperty(PropertyName = "Model")]
+        [JsonProperty(PropertyName = "DeviceName")]
         public string Model { get; set; }
 
         [JsonProperty(PropertyName = "multitouch")]
