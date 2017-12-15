@@ -46,6 +46,9 @@ namespace Tests
 
             var graph = RdfHelper.CreateGraphOfPhones(phonesByBrand);
             Assert.IsNotNull(graph);
+            Assert.IsTrue(graph.Nodes.Any());
+            Assert.IsTrue(graph.Triples.Any());
+            Assert.IsTrue(graph.BaseUri.PathAndQuery.Any());
         }
     }
 }
