@@ -1,34 +1,55 @@
 ﻿using System;
+using MobilePhonesOntology.Models;
+using System.Collections.Generic;
 using VDS.RDF;
-using VDS.RDF.Writing;
 
 namespace MobilePhonesOntology.Helpers
 {
     public static class RdfHelper
     {
-        public static void Test()
+        public static Graph CreateGraphOfBrandsAndModels(IEnumerable<PhoneSimple> phones)
         {
-            //Fill in the code shown on this page here to build your hello world application
-            Graph g = new Graph();
+            var graphOfBrandsAndModels = new Graph {BaseUri = new Uri("http://example.org/")};
 
-            IUriNode dotNetRDF = g.CreateUriNode(UriFactory.Create("http://www.dotnetrdf.org"));
-            IUriNode says = g.CreateUriNode(UriFactory.Create("http://example.org/says"));
-            ILiteralNode helloWorld = g.CreateLiteralNode("Hello World");
-            ILiteralNode bonjourMonde = g.CreateLiteralNode("Bonjour tout le Monde", "fr");
+            var relation = graphOfBrandsAndModels.CreateLiteralNode("is", "en");
 
-            g.Assert(new Triple(dotNetRDF, says, helloWorld));
-            g.Assert(new Triple(dotNetRDF, says, bonjourMonde));
-
-            foreach (Triple t in g.Triples)
+            foreach (var phone in phones)
             {
-                Console.WriteLine(t.ToString());
+                var modelNode = graphOfBrandsAndModels.CreateLiteralNode(phone.Model);
+                var brandNode = graphOfBrandsAndModels.CreateLiteralNode(phone.Brand, "en");
+
+                graphOfBrandsAndModels.Assert(new Triple(modelNode, relation, brandNode));
             }
 
-            NTriplesWriter ntwriter = new NTriplesWriter();
-            ntwriter.Save(g, "HelloWorld.nt");
+            return graphOfBrandsAndModels;
+        }
 
-            RdfXmlWriter rdfxmlwriter = new RdfXmlWriter();
-            rdfxmlwriter.Save(g, "HelloWorld.rdf");
+        public static Graph CreateGraphOfPhones(IEnumerable<Phone> phones)
+        {
+            var graphOfPhones = new Graph { BaseUri = new Uri("http://example.org/") };
+
+            var fields = typeof(Phone).GetFields();
+            foreach (var phone in phones)
+            {
+                foreach (var field in fields)
+                {
+                    if (field.Name == "Model") continue;
+
+                    var literalNodeValue = (string)phone.GetType().GetProperty(field.Name).GetValue(typeof(string), null);
+
+                    if (string.IsNullOrEmpty(literalNodeValue)) continue;
+
+                    var relation = graphOfPhones.CreateLiteralNode(field.Name, "en");
+
+                    var uriNode = graphOfPhones.CreateUriNode(phone.Model);
+
+                    var literalNode = graphOfPhones.CreateLiteralNode(literalNodeValue, "en");
+
+                    graphOfPhones.Assert(new Triple(uriNode, relation, literalNode));
+                }
+            }
+
+            return graphOfPhones;
         }
     }
 }

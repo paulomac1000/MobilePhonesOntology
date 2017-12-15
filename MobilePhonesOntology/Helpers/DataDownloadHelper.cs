@@ -90,11 +90,13 @@ namespace MobilePhonesOntology.Helpers
 
             var responseString = await response.Content.ReadAsStringAsync();
 
+            if (responseString.Contains("No Matching Results Found")) return null;
+
             try
             {
                 return JsonConvert.DeserializeObject<IEnumerable<Phone>>(responseString).FirstOrDefault();
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
