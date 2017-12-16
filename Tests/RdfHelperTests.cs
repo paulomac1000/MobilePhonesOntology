@@ -4,7 +4,6 @@ using MobilePhonesOntology.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VDS.RDF;
 
 namespace Tests
 {
@@ -46,6 +45,9 @@ namespace Tests
 
             var graph = RdfHelper.CreateGraphOfPhones(phonesByBrand);
             Assert.IsNotNull(graph);
+            Assert.IsTrue(graph.Nodes.Any());
+            Assert.IsTrue(graph.Triples.Any());
+            Assert.IsTrue(graph.BaseUri.PathAndQuery.Any());
         }
     }
 }
