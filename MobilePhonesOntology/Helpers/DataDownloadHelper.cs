@@ -25,28 +25,6 @@ namespace MobilePhonesOntology.Helpers
 
             var phoneNames = new List<Phone>();
 
-            //var lockMe = new object();
-            //var parallelLoopResult = Parallel.ForEach(brands, async brand =>
-            //{
-            //    var phonesSimpleByBrand = GetPhonesByBrand(brand);
-            //    var phonesByBrand = new List<Phone>();
-
-            //    foreach (var phoneSimple in phonesSimpleByBrand)
-            //    {
-            //        var phone = await GetPhone(phoneSimple.Model, phoneSimple.Brand);
-
-            //        if (phone == null)
-            //            continue;
-
-            //        phonesByBrand.Add(phone);
-            //    }
-
-            //    lock (lockMe)
-            //    {
-            //        phoneNames.AddRange(phonesByBrand);
-            //    }
-            //});
-
             foreach (var brand in brands)
             {
                 var phonesSimpleByBrand = GetPhonesByBrand(brand);
@@ -96,7 +74,7 @@ namespace MobilePhonesOntology.Helpers
             {
                 return JsonConvert.DeserializeObject<IEnumerable<Phone>>(responseString).FirstOrDefault();
             }
-            catch 
+            catch
             {
                 return null;
             }
