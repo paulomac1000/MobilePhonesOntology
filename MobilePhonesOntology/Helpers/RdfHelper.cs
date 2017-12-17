@@ -59,14 +59,14 @@ namespace MobilePhonesOntology.Helpers
 
         public static void SaveGraph(Graph graph, string fileName)
         {
-            var writer = new RdfXmlWriter();
+            var writer = new Notation3Writer();
             writer.Save(graph, fileName);
         }
 
         public static Graph LoadGraph(string fileName)
         {
             var graph = new Graph();
-            var parser = new RdfXmlParser();
+            var parser = new Notation3Parser();
             parser.Load(graph, fileName);
 
             return graph;
