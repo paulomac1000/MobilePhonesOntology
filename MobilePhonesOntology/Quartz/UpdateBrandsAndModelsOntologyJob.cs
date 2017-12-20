@@ -7,10 +7,8 @@ namespace MobilePhonesOntology.Quartz
     {
         public void Execute(IJobExecutionContext context)
         {
-            const string domain = "http://localhost:16273";
-
             var phonesWithBrands = DataDownloadHelper.GetAllSimplePhones();
-            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(phonesWithBrands, domain);
+            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(phonesWithBrands, Strings.Domain);
             CacheHelper.BrandsAndModels = graph;
         }
     }
