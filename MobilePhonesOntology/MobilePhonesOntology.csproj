@@ -45,6 +45,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="dotNetRDF, Version=1.0.12.0, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
       <HintPath>..\packages\dotNetRDF.1.0.12\lib\net40\dotNetRDF.dll</HintPath>
       <Private>True</Private>
@@ -89,6 +97,10 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.6.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.6.1\lib\net40\Quartz.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -160,6 +172,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdvancedFindController.cs" />
+    <Compile Include="Controllers\FindController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhoneController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
@@ -169,13 +183,17 @@
     </Compile>
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="Helpers\DataDownloadHelper.cs" />
-    <Compile Include="Helpers\RdfHelper.cs" />
+    <Compile Include="Helpers\OntologyHelper.cs" />
     <Compile Include="Helpers\TaskManageHelper.cs" />
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneSimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quartz\OnStartupJob.cs" />
+    <Compile Include="Quartz\Scheduler.cs" />
+    <Compile Include="Quartz\UpdateBrandsAndModelsOntologyJob.cs" />
+    <Compile Include="Quartz\UpdatePhonesOntologyJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -186,6 +204,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -205,6 +226,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Find\Index.cshtml" />
+    <Content Include="Views\AdvancedFind\Index.cshtml" />
     <None Include="Views\Shared\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Views\Shared\Scripts\jquery-1.10.2.js" />
     <Content Include="Views\Shared\Scripts\jquery-1.10.2.min.js" />

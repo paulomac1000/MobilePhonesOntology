@@ -10,12 +10,12 @@ namespace Tests
     [TestClass]
     public class RdfHelperTests
     {
-        private string domain = "http://localhost:16273";
+        private readonly string domain = "http://localhost:16273";
 
         [TestMethod]
         public void CreateGraphOfBrandsAndModels_Success()
         {
-            var graph = RdfHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), domain);
+            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), domain);
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
             Assert.IsTrue(graph.Triples.Any());
@@ -45,7 +45,7 @@ namespace Tests
                 phonesByBrand.Add(phone);
             }
 
-            var graph = RdfHelper.CreateGraphOfPhones(phonesByBrand, domain);
+            var graph = OntologyHelper.CreateGraphOfPhones(phonesByBrand, domain);
 
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
@@ -58,7 +58,7 @@ namespace Tests
         public async Task CreateGraphOfAllPhones_Success()
         {
             var phones = (await DataDownloadHelper.GetAllPhones()).ToList();
-            var graph = RdfHelper.CreateGraphOfPhones(phones, domain);
+            var graph = OntologyHelper.CreateGraphOfPhones(phones, domain);
 
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
@@ -71,9 +71,9 @@ namespace Tests
         {
             const string graphName = "brandsAndModelsGraph.rdf";
 
-            var graph = RdfHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), domain);
-            RdfHelper.SaveGraph(graph, graphName);
-            var loadedGraph = RdfHelper.LoadGraph(graphName);
+            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), domain);
+            OntologyHelper.SaveGraph(graph, graphName);
+            var loadedGraph = OntologyHelper.LoadGraph(graphName);
 
             Assert.AreEqual(graph, loadedGraph);
         }

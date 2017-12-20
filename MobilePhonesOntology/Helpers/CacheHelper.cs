@@ -6,27 +6,27 @@ namespace MobilePhonesOntology.Helpers
     public static class CacheHelper
     {
         private static Graph brandsAndModels { get; set; }
-        private static bool LockBrandsAndModels { get; set; } = false;
+        private static bool lockBrandsAndModels { get; set; }
 
         public static Graph BrandsAndModels
         {
             get
             {
-                if (LockBrandsAndModels)
+                if (lockBrandsAndModels)
                     throw new Exception("Wait when BrandsAndModels graph is updating.");
-                else
-                    return brandsAndModels;
+
+                return brandsAndModels;
             }
             set
             {
-                LockBrandsAndModels = true;
+                lockBrandsAndModels = true;
                 brandsAndModels = value;
-                LockBrandsAndModels = false;
+                lockBrandsAndModels = false;
             }
         }
 
         private static Graph phones { get; set; }
-        private static bool lockPhones { get; set; } = false;
+        private static bool lockPhones { get; set; }
 
         public static Graph Phones
         {
@@ -34,8 +34,8 @@ namespace MobilePhonesOntology.Helpers
             {
                 if (lockPhones)
                     throw new Exception("Wait when Phones graph is updating.");
-                else
-                    return phones;
+
+                return phones;
             }
             set
             {

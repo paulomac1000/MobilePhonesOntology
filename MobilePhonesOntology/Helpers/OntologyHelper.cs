@@ -9,7 +9,7 @@ using VDS.RDF.Writing;
 
 namespace MobilePhonesOntology.Helpers
 {
-    public static class RdfHelper
+    public static class OntologyHelper
     {
         public static Graph CreateGraphOfBrandsAndModels(IEnumerable<PhoneSimple> phones, string domain)
         {
