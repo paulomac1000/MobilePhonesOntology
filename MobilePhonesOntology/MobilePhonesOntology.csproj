@@ -183,11 +183,12 @@
     </Compile>
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="Helpers\DataDownloadHelper.cs" />
+    <Compile Include="Helpers\GraphHelper.cs" />
     <Compile Include="Helpers\OntologyHelper.cs" />
     <Compile Include="Helpers\Strings.cs" />
-    <Compile Include="Helpers\TaskManageHelper.cs" />
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\Enums\NodeType.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneSimple.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

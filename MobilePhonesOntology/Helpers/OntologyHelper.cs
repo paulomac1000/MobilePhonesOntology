@@ -1,4 +1,5 @@
 ﻿using MobilePhonesOntology.Models;
+using MobilePhonesOntology.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,16 @@ namespace MobilePhonesOntology.Helpers
         {
             var graphOfBrandsAndModels = new Graph { BaseUri = new Uri(domain) };
 
-            var relation = graphOfBrandsAndModels.CreateUriNode(new Uri($"{domain}/Relation/Index?relation=is"));
+            var relation = graphOfBrandsAndModels.CreateUriNode(new Uri($"{domain}/Relation/Index?{NodeName.Relation.ToString().ToLower()}=is"));
 
             foreach (var phone in phones)
             {
-                var modelNode = graphOfBrandsAndModels.CreateUriNode(new Uri($"{domain}/Phone/brand={phone.Brand}&model={phone.Model}"));
-                var brandNode = graphOfBrandsAndModels.CreateUriNode(new Uri($"{domain}/Phone/brand={phone.Brand}"));
+                var modelNode = graphOfBrandsAndModels.CreateUriNode(new Uri(
+                    $"{domain}/Phone/{NodeName.Brand.ToString().ToLower()}={phone.Brand}&{NodeName.Model.ToString().ToLower()}={phone.Model}"
+                ));
+                var brandNode = graphOfBrandsAndModels.CreateUriNode(new Uri(
+                    $"{domain}/Phone/{NodeName.Brand.ToString().ToLower()}={phone.Brand}"
+                ));
 
                 graphOfBrandsAndModels.Assert(new Triple(modelNode, relation, brandNode));
             }
@@ -46,11 +51,17 @@ namespace MobilePhonesOntology.Helpers
                     var propertyNodeValue = (string)propertyInfo.GetValue(phone, null);
                     if (string.IsNullOrEmpty(propertyNodeValue)) continue;
 
-                    var relation = graphOfPhones.CreateUriNode(new Uri($"{domain}/Relation/Index?relation={field.Name}"));
-                    var modelNode = graphOfPhones.CreateUriNode(new Uri($"{domain}/Phone/Index?brand={phone.Brand}&model={phone.Model}"));
-                    var propertyNode = graphOfPhones.CreateUriNode(new Uri($"{domain}/Property/Index?property={propertyNodeValue}&model={phone.Model}"));
+                    var phoneNode = graphOfPhones.CreateUriNode(new Uri(
+                        $"{domain}/Phone/Index?{NodeName.Brand.ToString().ToLower()}={phone.Brand}&{NodeName.Model.ToString().ToLower()}={phone.Model}"
+                    ));
+                    var relation = graphOfPhones.CreateUriNode(new Uri(
+                        $"{domain}/Relation/Index?{NodeName.Relation.ToString().ToLower()}={field.Name}"
+                    ));
+                    var propertyNode = graphOfPhones.CreateUriNode(new Uri(
+                        $"{domain}/Property/Index?{NodeName.Property.ToString().ToLower()}={propertyNodeValue}"
+                    ));
 
-                    graphOfPhones.Assert(new Triple(modelNode, relation, propertyNode));
+                    graphOfPhones.Assert(new Triple(phoneNode, relation, propertyNode));
                 }
             }
 

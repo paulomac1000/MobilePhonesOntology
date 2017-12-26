@@ -10,12 +10,10 @@ namespace Tests
     [TestClass]
     public class RdfHelperTests
     {
-        private readonly string domain = "http://localhost:16273";
-
         [TestMethod]
         public void CreateGraphOfBrandsAndModels_Success()
         {
-            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), domain);
+            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
             Assert.IsTrue(graph.Triples.Any());
@@ -45,7 +43,7 @@ namespace Tests
                 phonesByBrand.Add(phone);
             }
 
-            var graph = OntologyHelper.CreateGraphOfPhones(phonesByBrand, domain);
+            var graph = OntologyHelper.CreateGraphOfPhones(phonesByBrand, Strings.Domain);
 
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
@@ -58,7 +56,7 @@ namespace Tests
         public async Task CreateGraphOfAllPhones_Success()
         {
             var phones = (await DataDownloadHelper.GetAllPhones()).ToList();
-            var graph = OntologyHelper.CreateGraphOfPhones(phones, domain);
+            var graph = OntologyHelper.CreateGraphOfPhones(phones, Strings.Domain);
 
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
@@ -71,7 +69,7 @@ namespace Tests
         {
             const string graphName = "brandsAndModelsGraph.rdf";
 
-            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), domain);
+            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
             OntologyHelper.SaveGraph(graph, graphName);
             var loadedGraph = OntologyHelper.LoadGraph(graphName);
 
