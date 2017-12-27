@@ -196,6 +196,7 @@
     <Compile Include="Quartz\Scheduler.cs" />
     <Compile Include="Quartz\UpdateBrandsAndModelsOntologyJob.cs" />
     <Compile Include="Quartz\UpdatePhonesOntologyJob.cs" />
+    <Compile Include="ViewModels\FindViewModel.cs" />
     <Compile Include="ViewModels\TripleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

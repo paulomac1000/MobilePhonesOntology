@@ -1,4 +1,5 @@
 ﻿using MobilePhonesOntology.Helpers;
+using MobilePhonesOntology.Models;
 using MobilePhonesOntology.Models.Enums;
 using MobilePhonesOntology.ViewModels;
 using System;
@@ -9,24 +10,24 @@ namespace MobilePhonesOntology.Controllers
 {
     public class PhoneController : Controller
     {
-        public ActionResult Index(string brand = null, string model = null)
+        public ActionResult Index(PhoneSimple model)
         {
-            if (string.IsNullOrEmpty(brand) && string.IsNullOrEmpty(model))
+            if (string.IsNullOrEmpty(model.Brand) && string.IsNullOrEmpty(model.Model))
             {
                 return RedirectToAction("Index", "Find");
             }
-            else if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(model))
+            else if (!string.IsNullOrEmpty(model.Brand) && !string.IsNullOrEmpty(model.Model))
             {
                 var triples = CacheHelper.Phones.Triples.Where(t =>
-                    GraphHelper.GetFromNode(t.Subject, NodeName.Brand) == brand &&
-                    GraphHelper.GetFromNode(t.Subject, NodeName.Model) == model);
+                    GraphHelper.GetFromNode(t.Subject, NodeName.Brand) == model.Brand &&
+                    GraphHelper.GetFromNode(t.Subject, NodeName.Model) == model.Model);
 
                 if (!triples.Any())
-                    throw new Exception($"unable find {brand} {model}");
+                    throw new Exception($"unable find {model.Brand} {model}");
 
                 var phone = triples.Select(t => new TripleViewModel
                 {
-                    Subject = $"{brand} {model}",
+                    Subject = $"{model.Brand} {model.Model}",
                     SubjectUri = t.Subject.ToString(),
                     Predicate = GraphHelper.GetFromNode(t.Predicate, NodeName.Relation),
                     PredicateUri = t.Predicate.ToString(),

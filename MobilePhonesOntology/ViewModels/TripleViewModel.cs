@@ -1,6 +1,4 @@
-﻿using VDS.RDF;
-
-namespace MobilePhonesOntology.ViewModels
+﻿namespace MobilePhonesOntology.ViewModels
 {
     public class TripleViewModel
     {
