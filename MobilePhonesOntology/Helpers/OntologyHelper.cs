@@ -78,7 +78,14 @@ namespace MobilePhonesOntology.Helpers
         {
             var graph = new Graph();
             var parser = new Notation3Parser();
-            parser.Load(graph, fileName);
+            try
+            {
+                parser.Load(graph, fileName);
+            }
+            catch
+            {
+                // ignored
+            }
 
             return graph;
         }

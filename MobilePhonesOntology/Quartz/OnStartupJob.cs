@@ -22,7 +22,7 @@ namespace MobilePhonesOntology.Quartz
             var phonesSimpleByBrand = DataDownloadHelper.GetPhonesByBrand(brand);
             var phonesByBrand = phonesSimpleByBrand.Select(phoneSimple => DataDownloadHelper.GetPhone(phoneSimple.Model, phoneSimple.Brand))
                 .Select(task => task.GetAwaiter().GetResult()).Where(phone => phone != null).ToList();
-            CacheHelper.BrandsAndModels = OntologyHelper.CreateGraphOfPhones(phonesByBrand, Strings.Domain);
+            CacheHelper.Phones = OntologyHelper.CreateGraphOfPhones(phonesByBrand, Strings.Domain);
         }
     }
 }

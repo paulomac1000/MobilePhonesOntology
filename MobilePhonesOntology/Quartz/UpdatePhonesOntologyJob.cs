@@ -11,7 +11,7 @@ namespace MobilePhonesOntology.Quartz
             var phones = task.GetAwaiter().GetResult();
 
             var graph = OntologyHelper.CreateGraphOfPhones(phones, Strings.Domain);
-            CacheHelper.BrandsAndModels = graph;
+            CacheHelper.Phones = graph;
         }
     }
 }
