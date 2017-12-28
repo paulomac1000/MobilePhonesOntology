@@ -2,7 +2,6 @@
 using MobilePhonesOntology.Models;
 using MobilePhonesOntology.Models.Enums;
 using MobilePhonesOntology.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;

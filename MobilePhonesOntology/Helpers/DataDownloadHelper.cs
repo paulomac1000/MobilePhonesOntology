@@ -73,7 +73,7 @@ namespace MobilePhonesOntology.Helpers
             Phone phone = null;
             try
             {
-                phone =  JsonConvert.DeserializeObject<IEnumerable<Phone>>(responseString).FirstOrDefault();
+                phone = JsonConvert.DeserializeObject<IEnumerable<Phone>>(responseString).FirstOrDefault();
             }
             catch
             {

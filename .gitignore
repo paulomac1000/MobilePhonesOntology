@@ -453,3 +453,4 @@ $RECYCLE.BIN/
 # should be stored in the .pubxml.user file.
 
 # End of https://www.gitignore.io/api/csharp,windows,visualstudio
+/MobilePhonesOntology/*.graph
