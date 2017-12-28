@@ -160,7 +160,7 @@
       <HintPath>..\packages\VDS.Common.1.6.4\lib\net40-client\VDS.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-	<Reference Include="WebGrease">
+    <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -256,7 +256,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
