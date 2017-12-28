@@ -15,7 +15,7 @@ namespace MobilePhonesOntology.Helpers
                 if (lockBrandsAndModels)
                     throw new Exception("Wait when BrandsAndModels graph is updating.");
 
-                if(brandsAndModels == null)
+                if (brandsAndModels == null)
                     throw new Exception("BrandsAndModels graph is not updated yet.");
 
                 return brandsAndModels;

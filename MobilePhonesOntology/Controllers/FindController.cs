@@ -12,6 +12,7 @@ namespace MobilePhonesOntology.Controllers
 {
     public class FindController : Controller
     {
+        [ValidateInput(false)]
         public ActionResult Index(PhoneSimple model)
         {
             IEnumerable<Triple> triples = null;
@@ -40,11 +41,13 @@ namespace MobilePhonesOntology.Controllers
             }
 
             if (!triples.Any())
-                throw new Exception($"unable find {model.Brand} {model}");
+                return Json($"unable find {model.Brand} {model}", JsonRequestBehavior.AllowGet);
 
             var phones = triples.Select(t => new FindViewModel
             {
-                // todo
+                Brand = GraphHelper.GetFromNode(t.Object, NodeName.Brand),
+                Model = GraphHelper.GetFromNode(t.Subject, NodeName.Model),
+                Uri = t.Subject.ToString()
             });
 
             return Json(phones, JsonRequestBehavior.AllowGet);

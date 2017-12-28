@@ -70,14 +70,20 @@ namespace MobilePhonesOntology.Helpers
 
             if (responseString.Contains("No Matching Results Found")) return null;
 
+            Phone phone = null;
             try
             {
-                return JsonConvert.DeserializeObject<IEnumerable<Phone>>(responseString).FirstOrDefault();
+                phone =  JsonConvert.DeserializeObject<IEnumerable<Phone>>(responseString).FirstOrDefault();
             }
             catch
             {
                 return null;
             }
+
+            if (!string.IsNullOrEmpty(brand) && phone != null && !string.IsNullOrEmpty(phone.Model))
+                phone.Model = phone.Model.Remove(0, brand.Length + 1);
+
+            return phone;
         }
 
         public static IEnumerable<PhoneSimple> GetAllSimplePhones()

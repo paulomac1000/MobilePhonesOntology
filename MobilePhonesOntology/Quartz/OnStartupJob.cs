@@ -9,20 +9,28 @@ namespace MobilePhonesOntology.Quartz
     {
         public void Execute(IJobExecutionContext context)
         {
-            var phonesWithBrands = DataDownloadHelper.GetAllSimplePhones();
-            var graphOfBrandsAndModels = OntologyHelper.CreateGraphOfBrandsAndModels(phonesWithBrands, Strings.Domain);
-            CacheHelper.BrandsAndModels = graphOfBrandsAndModels;
-
-            var brand = new Brand
+            CacheHelper.BrandsAndModels = OntologyHelper.LoadGraph(Strings.BrandsAndModelsGraphName);
+            if (!CacheHelper.BrandsAndModels.Triples.Any())
             {
-                Id = 51,
-                Name = "Acer",
-                Url = "https://www.phonegg.com/brand/51-Acer"
-            };
-            var phonesSimpleByBrand = DataDownloadHelper.GetPhonesByBrand(brand);
-            var phonesByBrand = phonesSimpleByBrand.Select(phoneSimple => DataDownloadHelper.GetPhone(phoneSimple.Model, phoneSimple.Brand))
-                .Select(task => task.GetAwaiter().GetResult()).Where(phone => phone != null).ToList();
-            CacheHelper.Phones = OntologyHelper.CreateGraphOfPhones(phonesByBrand, Strings.Domain);
+                var phonesWithBrands = DataDownloadHelper.GetAllSimplePhones();
+                var graphOfBrandsAndModels = OntologyHelper.CreateGraphOfBrandsAndModels(phonesWithBrands, Strings.Domain);
+                CacheHelper.BrandsAndModels = graphOfBrandsAndModels;
+            }
+
+            CacheHelper.Phones = OntologyHelper.LoadGraph(Strings.PhonesGraphName);
+            if (!CacheHelper.Phones.Triples.Any())
+            {
+                var brand = new Brand
+                {
+                    Id = 51,
+                    Name = "Acer",
+                    Url = "https://www.phonegg.com/brand/51-Acer"
+                };
+                var phonesSimpleByBrand = DataDownloadHelper.GetPhonesByBrand(brand);
+                var phonesByBrand = phonesSimpleByBrand.Select(phoneSimple => DataDownloadHelper.GetPhone(phoneSimple.Model, phoneSimple.Brand))
+                    .Select(task => task.GetAwaiter().GetResult()).Where(phone => phone != null).ToList();
+                CacheHelper.Phones = OntologyHelper.CreateGraphOfPhones(phonesByBrand, Strings.Domain);
+            }
         }
     }
 }

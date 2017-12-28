@@ -8,6 +8,7 @@ namespace MobilePhonesOntology.Controllers
 {
     public class PropertyController : Controller
     {
+        [ValidateInput(false)]
         public ActionResult Index(string property = null)
         {
             if (string.IsNullOrEmpty(property))

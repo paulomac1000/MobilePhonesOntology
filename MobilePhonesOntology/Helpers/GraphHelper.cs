@@ -13,7 +13,7 @@ namespace MobilePhonesOntology.Helpers
             var input = node.ToString();
             var expression = new Regex($@"({name}=)(?<{name}>[^&]+)");
             var match = expression.Match(input);
-            return match.Success ? match.Groups[name].Value : string.Empty;
+            return match.Success ? match.Groups[name].Value.Replace("%20", " ") : string.Empty;
         }
     }
 }

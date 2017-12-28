@@ -25,11 +25,11 @@ namespace Tests
         [TestMethod]
         public async Task GetPhone_Success()
         {
-            var phone = await DataDownloadHelper.GetPhone("Samsung SGH-250", "Samsung");
+            var phone = await DataDownloadHelper.GetPhone("SGH-250", "Samsung");
 
             Assert.IsNotNull(phone);
             Assert.AreEqual(phone.Brand, "Samsung");
-            Assert.AreEqual(phone.Model, "Samsung SGH-250");
+            Assert.AreEqual(phone.Model, "SGH-250");
         }
 
         [TestMethod]

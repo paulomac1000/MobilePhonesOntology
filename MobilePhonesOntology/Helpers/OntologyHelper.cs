@@ -21,10 +21,10 @@ namespace MobilePhonesOntology.Helpers
             foreach (var phone in phones)
             {
                 var modelNode = graphOfBrandsAndModels.CreateUriNode(new Uri(
-                    $"{domain}/Phone/{NodeName.Brand.ToString().ToLower()}={phone.Brand}&{NodeName.Model.ToString().ToLower()}={phone.Model}"
+                    $"{domain}/Phone/Index?{NodeName.Brand.ToString().ToLower()}={phone.Brand}&{NodeName.Model.ToString().ToLower()}={phone.Model}"
                 ));
                 var brandNode = graphOfBrandsAndModels.CreateUriNode(new Uri(
-                    $"{domain}/Phone/{NodeName.Brand.ToString().ToLower()}={phone.Brand}"
+                    $"{domain}/Phone/Index?{NodeName.Brand.ToString().ToLower()}={phone.Brand}"
                 ));
 
                 graphOfBrandsAndModels.Assert(new Triple(modelNode, relation, brandNode));
@@ -71,16 +71,18 @@ namespace MobilePhonesOntology.Helpers
         public static void SaveGraph(Graph graph, string fileName)
         {
             var writer = new Notation3Writer();
-            writer.Save(graph, fileName);
+            var path = AppDomain.CurrentDomain.BaseDirectory;
+            writer.Save(graph, path + fileName);
         }
 
         public static Graph LoadGraph(string fileName)
         {
             var graph = new Graph();
             var parser = new Notation3Parser();
+            var path = AppDomain.CurrentDomain.BaseDirectory;
             try
             {
-                parser.Load(graph, fileName);
+                parser.Load(graph, path + fileName);
             }
             catch
             {
