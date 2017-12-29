@@ -1,7 +1,8 @@
 ﻿using MobilePhonesOntology.Helpers;
 using MobilePhonesOntology.Models.Enums;
-using System;
+using MobilePhonesOntology.ViewModels;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 
 namespace MobilePhonesOntology.Controllers
@@ -11,18 +12,53 @@ namespace MobilePhonesOntology.Controllers
         [ValidateInput(false)]
         public ActionResult Index(string property = null)
         {
+            var model = new PropertyViewModel
+            {
+                PropertyName = property
+            };
+
             if (string.IsNullOrEmpty(property))
-                throw new Exception("property is empty");
+            {
+                model.ErrorMessage = $"Property has been not given.";
+                return View(model);
+            }
 
-            var countInBrandAndModels = CacheHelper.BrandsAndModels.Triples.Count(t => GraphHelper.GetFromNode(t.Predicate, NodeName.Property) == property);
+            var triples = CacheHelper.Phones.Triples.Where(t =>
+                GraphHelper.GetFromNode(t.Object, NodeName.Property) == model.PropertyName);
 
-            var countInPhones = CacheHelper.Phones.Triples.Count(t => GraphHelper.GetFromNode(t.Predicate, NodeName.Property) == property);
+            if (!triples.Any())
+            {
+                model.ErrorMessage = $"Unable find relation {model.PropertyName}.";
+                return View(model);
+            }
 
-            var result = $"Property {property} has been found:" +
-                         $"{countInBrandAndModels} from {CacheHelper.BrandsAndModels.Triples.Count} triples in graph BrandsAndModels \n" +
-                         $"{countInPhones} from {CacheHelper.Phones.Triples.Count} triples in graph Phones \n";
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"Property {model.PropertyName} has been found {triples.Count()} times.<br>");
+            stringBuilder.AppendLine($"There are {CacheHelper.BrandsAndModels.Triples.Count()} phones.<br>");
+            stringBuilder.AppendLine($"<br>The following relation using this property:<br>");
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var relations = triples.Select(t => GraphHelper.GetFromNode(t.Predicate, NodeName.Relation));
+            var grouped = relations.GroupBy(i => i).OrderByDescending(x => x.Count());
+
+            foreach (var group in grouped)
+            {
+                stringBuilder.AppendLine($"Count: {group.Count()} Value: {group.Key}<br>");
+            }
+
+            stringBuilder.AppendLine($"<br>This property is used by:<br>");
+
+            relations = triples.Select(t => GraphHelper.GetFromNode(t.Subject, NodeName.Brand));
+            grouped = relations.GroupBy(i => i).OrderByDescending(x => x.Count());
+
+            foreach (var group in grouped)
+            {
+                stringBuilder.AppendLine($"Count: {group.Count()} Value: {group.Key}<br>");
+            }
+
+            model.ResponseMessage = stringBuilder.ToString();
+            model.Succes = true;
+
+            return View(model);
         }
     }
 }

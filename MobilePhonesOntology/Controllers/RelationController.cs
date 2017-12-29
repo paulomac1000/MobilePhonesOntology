@@ -16,6 +16,12 @@ namespace MobilePhonesOntology.Controllers
                 RelationName = relation
             };
 
+            if (string.IsNullOrEmpty(relation))
+            {
+                model.ErrorMessage = $"Relation has been not given.";
+                return View(model);
+            }
+
             var triples = CacheHelper.Phones.Triples.Where(t =>
                 GraphHelper.GetFromNode(t.Predicate, NodeName.Relation) == model.RelationName);
 
@@ -25,14 +31,13 @@ namespace MobilePhonesOntology.Controllers
                 return View(model);
             }
 
-            var values = triples.Select(t => GraphHelper.GetFromNode(t.Object, NodeName.Property));
-
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine($"Relation {model.RelationName} has been found {triples.Count()}.<br>");
+            stringBuilder.AppendLine($"Relation {model.RelationName} has been found {triples.Count()} times.<br>");
             stringBuilder.AppendLine($"There are {CacheHelper.BrandsAndModels.Triples.Count()} phones.<br>");
-            stringBuilder.AppendLine($"The following values were found:<br>");
+            stringBuilder.AppendLine($"<br>The following values were found:<br>");
 
-            var grouped = values.GroupBy(i => i).OrderBy(x => x.Key);
+            var properties = triples.Select(t => GraphHelper.GetFromNode(t.Object, NodeName.Property));
+            var grouped = properties.GroupBy(i => i).OrderByDescending(x => x.Count());
 
             foreach (var group in grouped)
             {
