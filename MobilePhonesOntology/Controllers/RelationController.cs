@@ -32,7 +32,7 @@ namespace MobilePhonesOntology.Controllers
             stringBuilder.AppendLine($"There are {CacheHelper.BrandsAndModels.Triples.Count()} phones.<br>");
             stringBuilder.AppendLine($"The following values were found:<br>");
 
-            var grouped = values.GroupBy(i => i);
+            var grouped = values.GroupBy(i => i).OrderBy(x => x.Key);
 
             foreach (var group in grouped)
             {

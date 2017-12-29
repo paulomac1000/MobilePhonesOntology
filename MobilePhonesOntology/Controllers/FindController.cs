@@ -38,22 +38,22 @@ namespace MobilePhonesOntology.Controllers
                      GraphHelper.GetFromNode(t.Object, NodeName.Brand) == model.Brand);
             }
             //only model given
-            else if (!string.IsNullOrEmpty(model.Brand) && string.IsNullOrEmpty(model.Model))
+            else if (string.IsNullOrEmpty(model.Brand) && !string.IsNullOrEmpty(model.Model))
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                     GraphHelper.GetFromNode(t.Subject, NodeName.Model) == model.Model);
+                     GraphHelper.GetFromNode(t.Subject, NodeName.Model).Contains(model.Model));
             }
             //both given
             else
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                    GraphHelper.GetFromNode(t.Subject, NodeName.Model) == model.Model &&
+                    GraphHelper.GetFromNode(t.Subject, NodeName.Model).Contains(model.Model) &&
                     GraphHelper.GetFromNode(t.Object, NodeName.Brand) == model.Brand);
             }
 
             if (!triples.Any())
             {
-                ModelState.AddModelError("", $"Unable find {model.Brand} {model}.");
+                ModelState.AddModelError("", $"Unable find {model.Brand} {model.Model}.");
                 return View();
             }
 

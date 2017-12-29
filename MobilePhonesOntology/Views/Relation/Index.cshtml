@@ -14,8 +14,8 @@
         <div class="panel-body">
             @if (Model.Succes)
             {
-                <div class="alert alert-danger">
-                    <strong>Error</strong> @Html.Raw(Model.ResponseMessage)
+                <div class="alert alert-success">
+                    @Html.Raw(Model.ResponseMessage)
                 </div>
             }
             else
