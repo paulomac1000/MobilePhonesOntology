@@ -67,11 +67,20 @@ namespace Tests
         [TestMethod]
         public void SaveAndLoadGraph_Succes()
         {
-            const string graphName = "brandsAndModelsGraph.rdf";
-
             var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
-            OntologyHelper.SaveGraph(graph, graphName);
-            var loadedGraph = OntologyHelper.LoadGraph(graphName);
+            OntologyHelper.SaveGraph(graph, Strings.BrandsAndModelsGraphName);
+            var loadedGraph = OntologyHelper.LoadGraph(Strings.BrandsAndModelsGraphName);
+
+            Assert.AreEqual(graph, loadedGraph);
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void SaveAndLoadBigGraph_Succes()
+        {
+            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
+            OntologyHelper.SaveGraph(graph, Strings.PhonesGraphName);
+            var loadedGraph = OntologyHelper.LoadGraph(Strings.PhonesGraphName);
 
             Assert.AreEqual(graph, loadedGraph);
         }

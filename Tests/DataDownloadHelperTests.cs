@@ -10,8 +10,8 @@ namespace Tests
     [TestClass]
     public class DataDownloadHelperTests
     {
-        [TestMethod]
         [Ignore]
+        [TestMethod]
         public async Task GetAllPhones_Success()
         {
             var phones = (await DataDownloadHelper.GetAllPhones()).ToList();
@@ -25,11 +25,14 @@ namespace Tests
         [TestMethod]
         public async Task GetPhone_Success()
         {
-            var phone = await DataDownloadHelper.GetPhone("SGH-250", "Samsung");
+            const string brand = "Samsung";
+            const string model = "SGH-250";
+
+            var phone = await DataDownloadHelper.GetPhone(model, brand);
 
             Assert.IsNotNull(phone);
-            Assert.AreEqual(phone.Brand, "Samsung");
-            Assert.AreEqual(phone.Model, "SGH-250");
+            Assert.AreEqual(phone.Brand, brand);
+            Assert.AreEqual(phone.Model, model);
         }
 
         [TestMethod]
@@ -61,11 +64,15 @@ namespace Tests
         [TestMethod]
         public void GetPhonesByBrand_Success()
         {
+            const int brandId = 51;
+            const string brandName = "Acer";
+            const string brandUrl = "https://www.phonegg.com/brand/51-Acer";
+
             var brand = new Brand
             {
-                Id = 51,
-                Name = "Acer",
-                Url = "https://www.phonegg.com/brand/51-Acer"
+                Id = brandId,
+                Name = brandName,
+                Url = brandUrl
             };
 
             var phones = DataDownloadHelper.GetPhonesByBrand(brand).ToList();
