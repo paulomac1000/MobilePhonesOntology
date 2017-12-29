@@ -192,6 +192,7 @@
     <Compile Include="Models\Enums\NodeType.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneSimple.cs" />
+    <Compile Include="Models\PhoneSimpleWithUri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quartz\OnStartupJob.cs" />
     <Compile Include="Quartz\Scheduler.cs" />
