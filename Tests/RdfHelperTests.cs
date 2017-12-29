@@ -65,7 +65,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void SaveAndLoadGraph_Succes()
+        public void SaveAndLoadBrandsAndModelsGraph_Succes()
         {
             var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
             OntologyHelper.SaveGraph(graph, Strings.BrandsAndModelsGraphName);
@@ -74,11 +74,13 @@ namespace Tests
             Assert.AreEqual(graph, loadedGraph);
         }
 
-        [Ignore]
+        //[Ignore]
         [TestMethod]
-        public void SaveAndLoadBigGraph_Succes()
+        public async Task SaveAndLoadPhonesGraph_Succes()
         {
-            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
+            var phones = (await DataDownloadHelper.GetAllPhones()).ToList();
+            var graph = OntologyHelper.CreateGraphOfPhones(phones, Strings.Domain);
+
             OntologyHelper.SaveGraph(graph, Strings.PhonesGraphName);
             var loadedGraph = OntologyHelper.LoadGraph(Strings.PhonesGraphName);
 
