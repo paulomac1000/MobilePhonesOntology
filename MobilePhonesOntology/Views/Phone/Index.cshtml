@@ -35,7 +35,7 @@
             else
             {
                 <div class="alert alert-danger">
-                    <strong>Error</strong> @Model.ErrorMessage
+                    <strong>Error</strong> @Html.Raw(Model.ErrorMessage)
                 </div>
             }
 

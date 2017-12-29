@@ -201,6 +201,7 @@
     <Compile Include="ViewModels\FindViewModel.cs" />
     <Compile Include="Models\TripleSimple.cs" />
     <Compile Include="ViewModels\PhoneViewModel.cs" />
+    <Compile Include="ViewModels\RelationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -247,11 +248,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Relation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Property\" />
-    <Folder Include="Views\Relation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

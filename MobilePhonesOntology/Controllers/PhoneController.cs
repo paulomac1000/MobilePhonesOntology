@@ -36,7 +36,7 @@ namespace MobilePhonesOntology.Controllers
 
             if (!triples.Any())
             {
-                model.ErrorMessage = $"Unable find {parameters.Brand} {parameters.Model}.  If You clicked right link, there is propably diffrence between data got from phonegg.com and fonoapi.";
+                model.ErrorMessage = $"Unable find {parameters.Brand} {parameters.Model}.<br>If You clicked right link, there is propably diffrence between data got from phonegg.com and fonoapi.";
                 return View(model);
             }
 
