@@ -18,53 +18,54 @@ namespace MobilePhonesOntology.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Index(string brand, string model)
+        public ActionResult Index(PhoneSimple parameters)
         {
-            var viewModel = new FindViewModel
+            var model = new FindViewModel
             {
-                Brand = brand,
-                Model = model
+                Brand = parameters.Brand,
+                Model = parameters.Model
             };
 
             IEnumerable<Triple> triples = null;
-            if (string.IsNullOrEmpty(viewModel.Brand) && string.IsNullOrEmpty(viewModel.Model))
+            if (string.IsNullOrEmpty(model.Brand) && string.IsNullOrEmpty(model.Model))
             {
-                return View();
+                return View(model);
             }
             //only brand given
-            else if (!string.IsNullOrEmpty(viewModel.Brand) && string.IsNullOrEmpty(viewModel.Model))
+            else if (!string.IsNullOrEmpty(model.Brand) && string.IsNullOrEmpty(model.Model))
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                     GraphHelper.GetFromNode(t.Object, NodeName.Brand) == viewModel.Brand);
+                     GraphHelper.GetFromNode(t.Object, NodeName.Brand) == model.Brand);
             }
             //only model given
-            else if (!string.IsNullOrEmpty(viewModel.Brand) && string.IsNullOrEmpty(viewModel.Model))
+            else if (!string.IsNullOrEmpty(model.Brand) && string.IsNullOrEmpty(model.Model))
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                     GraphHelper.GetFromNode(t.Subject, NodeName.Model) == viewModel.Model);
+                     GraphHelper.GetFromNode(t.Subject, NodeName.Model) == model.Model);
             }
             //both given
             else
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                    GraphHelper.GetFromNode(t.Subject, NodeName.Model) == viewModel.Model &&
-                    GraphHelper.GetFromNode(t.Object, NodeName.Brand) == viewModel.Brand);
+                    GraphHelper.GetFromNode(t.Subject, NodeName.Model) == model.Model &&
+                    GraphHelper.GetFromNode(t.Object, NodeName.Brand) == model.Brand);
             }
 
             if (!triples.Any())
             {
-                ModelState.AddModelError("", $"unable find {viewModel.Brand} {viewModel}");
+                ModelState.AddModelError("", $"Unable find {model.Brand} {model}.");
                 return View();
             }
 
-            viewModel.Phones = triples.Select(t => new PhoneSimpleWithUri
+            model.Phones = triples.Select(t => new PhoneSimpleWithUri
             {
                 Brand = GraphHelper.GetFromNode(t.Object, NodeName.Brand),
                 Model = GraphHelper.GetFromNode(t.Subject, NodeName.Model),
                 Uri = t.Subject.ToString()
             });
-
-            return View(viewModel);
+            model.Succes = true;
+            
+            return View(model);
         }
     }
 }

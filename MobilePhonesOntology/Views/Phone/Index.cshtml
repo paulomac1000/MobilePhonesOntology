@@ -1,7 +1,45 @@
-﻿
+﻿@model MobilePhonesOntology.ViewModels.PhoneViewModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = $"Info about {Model.Brand} {Model.Model}";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <div class="panel panel-primary row col-md-offset-3 col-md-6">
 
+        <div class="row panel-heading">
+            @ViewBag.Title
+        </div>
+
+        <div class="panel-body">
+            @if (Model.Succes)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var parameter in Model.Triples)
+                        {
+                            <tr>
+                                <td><a href="@parameter.PredicateUri">@parameter.Predicate</a></td>
+                                <td><a href="@parameter.ObjectUri">@parameter.Object</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <strong>Error</strong> @Model.ErrorMessage
+                </div>
+            }
+
+            <button class="btn btn-primary btn-block" onclick="window.history.back();">Go Back</button>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿namespace MobilePhonesOntology.ViewModels
 {
-    public class TripleViewModel
+    public class TripleSimple
     {
         public string Subject { get; set; }
         public string SubjectUri { get; set; }

@@ -12,20 +12,35 @@ namespace MobilePhonesOntology.Controllers
         [ValidateInput(false)]
         public ActionResult Index(PhoneSimple parameters)
         {
+            var model = new PhoneViewModel
+            {
+                Brand = parameters.Brand,
+                Model = parameters.Model
+            };
+
             if (string.IsNullOrEmpty(parameters.Brand) && string.IsNullOrEmpty(parameters.Model))
-                return RedirectToAction("Index", "Find");
+            {
+                model.ErrorMessage = "No parameter given.";
+                return View(model);
+            }
 
             if (string.IsNullOrEmpty(parameters.Brand) || string.IsNullOrEmpty(parameters.Model))
-                return Json("brand or model is empty", JsonRequestBehavior.AllowGet);
+            {
+                model.ErrorMessage = "You have to give both parameters.";
+                return View(model);
+            }
 
             var triples = CacheHelper.Phones.Triples.Where(t =>
                 GraphHelper.GetFromNode(t.Subject, NodeName.Brand) == parameters.Brand &&
                 GraphHelper.GetFromNode(t.Subject, NodeName.Model) == parameters.Model).ToArray();
 
             if (!triples.Any())
-                return Json($"unable find {parameters.Brand} {parameters.Model}", JsonRequestBehavior.AllowGet);
+            {
+                model.ErrorMessage = $"Unable find {parameters.Brand} {parameters.Model}.  If You clicked right link, there is propably diffrence between data got from phonegg.com and fonoapi.";
+                return View(model);
+            }
 
-            var phone = triples.Select(t => new TripleViewModel
+            model.Triples = triples.Select(t => new TripleSimple
             {
                 Subject = $"{parameters.Brand} {parameters.Model}",
                 SubjectUri = t.Subject.ToString(),
@@ -34,8 +49,9 @@ namespace MobilePhonesOntology.Controllers
                 Object = GraphHelper.GetFromNode(t.Object, NodeName.Property),
                 ObjectUri = t.Object.ToString(),
             });
+            model.Succes = true;
 
-            return Json(phone, JsonRequestBehavior.AllowGet);
+            return View(model);
         }
     }
 }

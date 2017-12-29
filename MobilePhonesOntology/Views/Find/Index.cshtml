@@ -36,35 +36,32 @@
                     </div>
                 }
             </div>
-            
-            @if (Model != null && Model.Phones != null)
+
+            @if (Model != null && Model.Succes)
             {
                 <div class="alert alert-info">
                     Found <strong>@Model.Phones.Count()</strong> results.
                 </div>
 
-                if (Model.Phones.Any())
-                {
-                    <table class="table table-bordered">
-                        <thead>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var phone in Model.Phones)
+                        {
                             <tr>
-                                <th>Brand</th>
-                                <th>Model</th>
-                                <th>Link</th>
+                                <td>@phone.Brand</td>
+                                <td>@phone.Model</td>
+                                <td><a href="@phone.Uri" class="btn btn-primary btn-block">Link</a></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var phone in Model.Phones)
-                            {
-                                <tr>
-                                    <td>@phone.Brand</td>
-                                    <td>@phone.Model</td>
-                                    <td><a href="@phone.Uri" class="btn btn-primary btn-block">Link</a></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
+                        }
+                    </tbody>
+                </table>
             }
         </div>
     </div>
