@@ -454,3 +454,4 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/csharp,windows,visualstudio
 /MobilePhonesOntology/*.graph
+/MobilePhonesOntology/*.graph
