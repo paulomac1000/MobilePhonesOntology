@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MobilePhonesOntology.Extensions;
 using MobilePhonesOntology.Helpers;
 using MobilePhonesOntology.Models.Enums;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Tests
         public void GetBrandFromNode_Succes()
         {
             var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
-            var brand = GraphHelper.GetFromNode(graph.Triples.First().Object, NodeName.Brand);
+            var brand = graph.Triples.First().Object.GetFromNode(NodeName.Brand);
 
             Assert.IsFalse(string.IsNullOrEmpty(brand));
         }
@@ -23,7 +24,7 @@ namespace Tests
         [TestMethod]
         public void GetModelFromNode_Succes()
         {
-            var model = GraphHelper.GetFromNode(Graph.Triples.First().Subject, NodeName.Model);
+            var model = Graph.Triples.First().Subject.GetFromNode(NodeName.Model);
 
             Assert.IsFalse(string.IsNullOrEmpty(model));
         }
@@ -31,7 +32,7 @@ namespace Tests
         [TestMethod]
         public void GetRelationFromNode_Succes()
         {
-            var relation = GraphHelper.GetFromNode(Graph.Triples.First().Predicate, NodeName.Relation);
+            var relation = Graph.Triples.First().Predicate.GetFromNode(NodeName.Relation);
 
             Assert.IsFalse(string.IsNullOrEmpty(relation));
         }
@@ -39,14 +40,13 @@ namespace Tests
         [TestMethod]
         public void GetFromNode_Fail()
         {
-            var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
-            var node = GraphHelper.GetFromNode(graph.Triples.First().Object, NodeName.Property);
+            var node = Graph.Triples.First().Object.GetFromNode(NodeName.Property);
             Assert.IsTrue(string.IsNullOrEmpty(node));
 
-            node = GraphHelper.GetFromNode(graph.Triples.First().Object, NodeName.Model);
+            node = Graph.Triples.First().Object.GetFromNode(NodeName.Model);
             Assert.IsTrue(string.IsNullOrEmpty(node));
 
-            node = GraphHelper.GetFromNode(graph.Triples.First().Object, NodeName.Relation);
+            node = Graph.Triples.First().Object.GetFromNode(NodeName.Relation);
             Assert.IsTrue(string.IsNullOrEmpty(node));
         }
     }

@@ -1,7 +1,9 @@
-﻿using MobilePhonesOntology.Helpers;
+﻿using MobilePhonesOntology.Extensions;
+using MobilePhonesOntology.Helpers;
 using MobilePhonesOntology.Models;
 using MobilePhonesOntology.Models.Enums;
 using MobilePhonesOntology.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -35,20 +37,20 @@ namespace MobilePhonesOntology.Controllers
             else if (!string.IsNullOrEmpty(model.Brand) && string.IsNullOrEmpty(model.Model))
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                     GraphHelper.GetFromNode(t.Object, NodeName.Brand) == model.Brand);
+                    t.Object.GetFromNode(NodeName.Brand).Equals(model.Brand, StringComparison.OrdinalIgnoreCase));
             }
             //only model given
             else if (string.IsNullOrEmpty(model.Brand) && !string.IsNullOrEmpty(model.Model))
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                     GraphHelper.GetFromNode(t.Subject, NodeName.Model).Contains(model.Model));
+                     t.Subject.GetFromNode(NodeName.Model).Contains(model.Model, StringComparison.OrdinalIgnoreCase));
             }
             //both given
             else
             {
                 triples = CacheHelper.BrandsAndModels.Triples.Where(t =>
-                    GraphHelper.GetFromNode(t.Subject, NodeName.Model).Contains(model.Model) &&
-                    GraphHelper.GetFromNode(t.Object, NodeName.Brand) == model.Brand);
+                    t.Subject.GetFromNode(NodeName.Model).Contains(model.Model, StringComparison.OrdinalIgnoreCase) &&
+                    t.Object.GetFromNode(NodeName.Brand).Contains(model.Brand, StringComparison.OrdinalIgnoreCase));
             }
 
             if (!triples.Any())
@@ -59,12 +61,12 @@ namespace MobilePhonesOntology.Controllers
 
             model.Phones = triples.Select(t => new PhoneSimpleWithUri
             {
-                Brand = GraphHelper.GetFromNode(t.Object, NodeName.Brand),
-                Model = GraphHelper.GetFromNode(t.Subject, NodeName.Model),
+                Brand = t.Object.GetFromNode(NodeName.Brand),
+                Model = t.Subject.GetFromNode(NodeName.Model),
                 Uri = t.Subject.ToString()
             });
             model.Succes = true;
-            
+
             return View(model);
         }
     }

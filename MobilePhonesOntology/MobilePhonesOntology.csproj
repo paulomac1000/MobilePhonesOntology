@@ -173,18 +173,19 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AdvancedFindController.cs" />
     <Compile Include="Controllers\FindController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhoneController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\RelationController.cs" />
+    <Compile Include="Controllers\StatsController.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\INodeExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="Helpers\DataDownloadHelper.cs" />
-    <Compile Include="Helpers\GraphHelper.cs" />
     <Compile Include="Helpers\OntologyHelper.cs" />
     <Compile Include="Helpers\Strings.cs" />
     <Compile Include="Models\ApiResponse.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="ViewModels\PhoneViewModel.cs" />
     <Compile Include="ViewModels\PropertyViewModel.cs" />
     <Compile Include="ViewModels\RelationViewModel.cs" />
+    <Compile Include="ViewModels\StatsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -233,7 +235,6 @@
     </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Find\Index.cshtml" />
-    <Content Include="Views\AdvancedFind\Index.cshtml" />
     <Content Include="Views\Phone\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -251,6 +252,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Relation\Index.cshtml" />
     <Content Include="Views\Property\Index.cshtml" />
+    <Content Include="Views\Stats\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

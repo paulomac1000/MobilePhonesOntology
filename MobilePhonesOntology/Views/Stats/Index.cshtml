@@ -1,0 +1,66 @@
+﻿@model MobilePhonesOntology.ViewModels.StatsViewModel
+
+@{
+    ViewBag.Title = "Statistics";
+}
+
+<div class="container">
+    <div class="panel panel-primary row col-md-offset-3 col-md-6">
+
+        <div class="row panel-heading">
+            @ViewBag.Title
+        </div>
+
+        <div class="panel-body">
+            <div class="alert alert-success">
+                <strong>Numbers of entities downloaded from phonegg.com</strong><br />
+                @Model.NumberOfBrandAndModels
+            </div>
+            <div class="alert alert-success">
+                <strong>Numbers of entities downloaded from fonoapi.com</strong><br />
+                @Model.NumberOfPhones
+            </div>
+            <div class="alert alert-success">
+                <strong>Numbers of relations</strong><br />
+                @Model.NumbersOfRelations
+            </div>
+            <div class="alert alert-success">
+                <strong>Numbers of unique properties</strong><br />
+                @Model.NumbersOfUniqueProperties
+            </div>
+            <div class="alert alert-success">
+                <strong>Numbers of unique relations</strong><br />
+                @Model.NumbersOfUniqueRelations
+            </div>
+            <div class="alert alert-success">
+                <strong>Names of unique relations</strong><br />
+                @string.Join(", ", Model.NamesOfRelations)
+            </div>
+
+            <div class="alert alert-info">
+                <strong>App info</strong><br />
+                It is not possible to extract a full list of phones from the fonoapi.
+                I noticed that the names of the phones are very similar to those on the phonegg,
+                so I parsed the page with the phone brands and subpages of these brands, bringing
+                out the full list of phones and built them a graph of "brandAndModels".
+                <br />
+                I created a function that retrieves the access token to fonoapi.
+                Then for each phone I tried to download it from the fonoapi,
+                and the downloaded phones were deserialized from Json to my own model. I created
+                triples of these data and added it to the graph.
+                I saved these graphs into a files with the structure of notation3 (a format similar to XML,
+                but easier to read by a human), which will be loaded at the start of the application.
+                <br />
+                I also created tasks updating my data structures at night - at 4:00 am I update
+                the brandsAndModels graph, and at 4:30 the Phones graph.
+                <br />
+                The project uses dotnetrdf extension, which allows me to easily manage data.
+                <br />
+                The whole was written in asp.net mvc using the principles of good programming.
+                In a few places, I had to overload the standard functions to increase 
+                the readability of my code. In order to ensure high reliability, the functionality 
+                has been thoroughly tested using unit tests.
+            </div>
+        </div>
+    </div>
+</div>

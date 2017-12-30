@@ -1,4 +1,5 @@
-﻿using MobilePhonesOntology.Helpers;
+﻿using MobilePhonesOntology.Extensions;
+using MobilePhonesOntology.Helpers;
 using MobilePhonesOntology.Models.Enums;
 using MobilePhonesOntology.ViewModels;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace MobilePhonesOntology.Controllers
             }
 
             var triples = CacheHelper.Phones.Triples.Where(t =>
-                GraphHelper.GetFromNode(t.Predicate, NodeName.Relation) == model.RelationName);
+                t.Predicate.GetFromNode(NodeName.Relation) == model.RelationName);
 
             if (!triples.Any())
             {
@@ -36,7 +37,7 @@ namespace MobilePhonesOntology.Controllers
             stringBuilder.AppendLine($"There are {CacheHelper.BrandsAndModels.Triples.Count()} phones.<br>");
             stringBuilder.AppendLine($"<br>The following values were found:<br>");
 
-            var properties = triples.Select(t => GraphHelper.GetFromNode(t.Object, NodeName.Property));
+            var properties = triples.Select(t => t.Object.GetFromNode(NodeName.Property));
             var grouped = properties.GroupBy(i => i).OrderByDescending(x => x.Count());
 
             foreach (var group in grouped)

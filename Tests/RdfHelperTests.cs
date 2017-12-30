@@ -14,6 +14,7 @@ namespace Tests
         public void CreateGraphOfBrandsAndModels_Success()
         {
             var graph = OntologyHelper.CreateGraphOfBrandsAndModels(DataDownloadHelper.GetAllSimplePhones(), Strings.Domain);
+
             Assert.IsNotNull(graph);
             Assert.IsTrue(graph.Nodes.Any());
             Assert.IsTrue(graph.Triples.Any());
@@ -23,11 +24,15 @@ namespace Tests
         [TestMethod]
         public async Task CreateGraphOfPhones_Success()
         {
+            const int brandId = 51;
+            const string brandName = "Acer";
+            const string brandUrl = "https://www.phonegg.com/brand/51-Acer";
+
             var brand = new Brand
             {
-                Id = 51,
-                Name = "Acer",
-                Url = "https://www.phonegg.com/brand/51-Acer"
+                Id = brandId,
+                Name = brandName,
+                Url = brandUrl
             };
 
             var phonesSimpleByBrand = DataDownloadHelper.GetPhonesByBrand(brand);
@@ -74,7 +79,7 @@ namespace Tests
             Assert.AreEqual(graph, loadedGraph);
         }
 
-        //[Ignore]
+        [Ignore]
         [TestMethod]
         public async Task SaveAndLoadPhonesGraph_Succes()
         {

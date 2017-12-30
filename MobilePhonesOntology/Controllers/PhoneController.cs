@@ -1,7 +1,9 @@
-﻿using MobilePhonesOntology.Helpers;
+﻿using MobilePhonesOntology.Extensions;
+using MobilePhonesOntology.Helpers;
 using MobilePhonesOntology.Models;
 using MobilePhonesOntology.Models.Enums;
 using MobilePhonesOntology.ViewModels;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -31,8 +33,9 @@ namespace MobilePhonesOntology.Controllers
             }
 
             var triples = CacheHelper.Phones.Triples.Where(t =>
-                GraphHelper.GetFromNode(t.Subject, NodeName.Brand) == parameters.Brand &&
-                GraphHelper.GetFromNode(t.Subject, NodeName.Model) == parameters.Model).ToArray();
+                t.Subject.GetFromNode(NodeName.Brand).Equals(parameters.Brand, StringComparison.OrdinalIgnoreCase) &&
+                t.Subject.GetFromNode(NodeName.Model).Equals(parameters.Model, StringComparison.OrdinalIgnoreCase)
+                ).ToArray();
 
             if (!triples.Any())
             {
@@ -44,9 +47,9 @@ namespace MobilePhonesOntology.Controllers
             {
                 Subject = $"{parameters.Brand} {parameters.Model}",
                 SubjectUri = t.Subject.ToString(),
-                Predicate = GraphHelper.GetFromNode(t.Predicate, NodeName.Relation),
+                Predicate = t.Predicate.GetFromNode(NodeName.Relation),
                 PredicateUri = t.Predicate.ToString(),
-                Object = GraphHelper.GetFromNode(t.Object, NodeName.Property),
+                Object = t.Object.GetFromNode(NodeName.Property),
                 ObjectUri = t.Object.ToString(),
             });
             model.Succes = true;
