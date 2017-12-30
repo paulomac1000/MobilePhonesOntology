@@ -17,9 +17,9 @@ namespace MobilePhonesOntology.Controllers
             {
                 NumberOfBrandAndModels = CacheHelper.BrandsAndModels.Triples.Count,
                 NumbersOfRelations = CacheHelper.Phones.Triples.Count,
-                NamesOfRelations = typeof(Phone).GetTypeInfo().DeclaredProperties.Select(p => p.Name)
+                NamesOfRelations = typeof(Phone).GetTypeInfo().DeclaredProperties.Select(p => p.Name),
             };
-            model.NumbersOfRelations = model.NamesOfRelations.Count();
+            model.NumbersOfUniqueRelations = model.NamesOfRelations.Count();
 
             var groupedUniquePhones = CacheHelper.Phones.Triples.Select(t => t.Subject.ToString()).GroupBy(i => i);
             model.NumberOfPhones = groupedUniquePhones.Count();

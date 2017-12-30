@@ -20,11 +20,15 @@ namespace MobilePhonesOntology.Quartz
             CacheHelper.Phones = OntologyHelper.LoadGraph(Strings.PhonesGraphName);
             if (!CacheHelper.Phones.Triples.Any())
             {
+                const int brandId = 51;
+                const string brandName = "Acer";
+                const string brandUrl = "https://www.phonegg.com/brand/51-Acer";
+
                 var brand = new Brand
                 {
-                    Id = 51,
-                    Name = "Acer",
-                    Url = "https://www.phonegg.com/brand/51-Acer"
+                    Id = brandId,
+                    Name = brandName,
+                    Url = brandUrl
                 };
                 var phonesSimpleByBrand = DataDownloadHelper.GetPhonesByBrand(brand);
                 var phonesByBrand = phonesSimpleByBrand.Select(phoneSimple => DataDownloadHelper.GetPhone(phoneSimple.Model, phoneSimple.Brand))
